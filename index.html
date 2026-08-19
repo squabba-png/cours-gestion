@@ -200,6 +200,7 @@
     border:1px solid var(--tile-border); padding:34px 32px 30px; position:relative;
     box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
   }
+  .panel.panel-wide{ max-width:820px; }
   .panel-close{
     position:absolute; top:18px; right:18px; background:none; border:none; cursor:pointer;
     width:30px; height:30px; display:flex; align-items:center; justify-content:center;
@@ -238,7 +239,77 @@
     background:#fff; border-left:3px solid var(--accent); border-radius:6px; color:var(--text-on-tile);
   }
 
+  /* quality cards grid (Chapitre 1) */
+  .qcards-wrap{ margin-top:20px; }
+  .qcards-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .qcards-count{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-on-tile-soft); }
+  .qcards-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+  }
+  @media(min-width:520px){ .qcards-grid{ grid-template-columns:repeat(3,1fr); } }
+  .qcard{
+    background:#fff; border:1px solid var(--tile-border); border-radius:10px;
+    padding:10px 10px 8px;
+  }
+  .qcard .qcard-num{ font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--accent); font-weight:600; }
+  .qcard .qcard-name{ font-size:12.5px; font-weight:600; color:var(--text-on-tile); margin:3px 0 8px; line-height:1.25; min-height:2.4em; }
+  .qcard input{
+    width:100%; border:none; border-top:1px dashed var(--tile-border); padding:6px 0 0;
+    font-family:'Inter',sans-serif; font-size:11.5px; color:var(--text-on-tile); background:transparent;
+  }
+  .qcard input:focus{ outline:none; border-top-color:var(--accent); }
+  .qcard input::placeholder{ color:var(--text-on-tile-soft); font-style:italic; }
+
   .footer-note{ text-align:center; padding:30px; color:var(--text-on-bg-soft); font-size:11.5px; border-top:1px solid var(--line); }
+
+  /* ---------- CHAPTER READER (contenu complet en une page) ---------- */
+  .reader-wrap{ max-width:820px; margin:0 auto; padding:40px 32px 100px; }
+  .reader-card{
+    background:var(--tile); color:var(--text-on-tile); border:1px solid var(--tile-border);
+    border-radius:16px; padding:32px 34px; margin-bottom:22px;
+  }
+  .reader-card h2{ font-size:22px; margin-bottom:12px; color:var(--text-on-tile); }
+  .reader-card h3{ font-size:17px; margin:0 0 10px; color:var(--text-on-tile); }
+  .reader-card p{ font-size:14.5px; line-height:1.7; color:var(--text-on-tile); margin:0 0 12px; }
+  .reader-card p.soft{ color:var(--text-on-tile-soft); }
+  .reader-card ul{ margin:0 0 12px; padding-left:20px; }
+  .reader-card li{ font-size:14.5px; line-height:1.7; color:var(--text-on-tile); margin-bottom:6px; }
+  .reader-card li b{ color:var(--accent); }
+  .reader-sub{ font-size:12px; font-family:'JetBrains Mono',monospace; color:var(--accent); letter-spacing:.05em; margin-bottom:6px; display:block; }
+
+  .activity-box{
+    background:rgba(11,27,58,.04); border:1px dashed var(--tile-border); border-radius:12px;
+    padding:20px 22px; margin:18px 0;
+  }
+  .activity-box .activity-tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700;
+    color:#fff; background:var(--accent); border-radius:99px; padding:3px 10px; margin-bottom:10px; letter-spacing:.04em;
+  }
+
+  .note-field{ margin:14px 0; }
+  .note-field label{ display:block; font-size:13.5px; font-weight:600; color:var(--text-on-tile); margin-bottom:6px; }
+  .note-field textarea{
+    width:100%; min-height:54px; resize:vertical; border:1px solid var(--tile-border); border-radius:8px;
+    padding:10px 12px; font-family:'Inter',sans-serif; font-size:13.5px; color:var(--text-on-tile);
+    background:#fff;
+  }
+  .note-field textarea:focus{ outline:none; border-color:var(--accent); }
+  .note-field textarea::placeholder{ color:var(--text-on-tile-soft); font-style:italic; }
+  .note-saved{ font-size:10.5px; color:var(--text-on-tile-soft); margin-top:3px; font-style:italic; }
+
+  .case-card{
+    background:#fff; border:1px solid var(--tile-border); border-radius:12px; padding:18px 20px; margin-bottom:14px;
+  }
+  .case-card .case-tag{ font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700; letter-spacing:.05em; }
+  .case-card.success .case-tag{ color:var(--green, #2F6F4E); }
+  .case-card.rebond .case-tag{ color:var(--accent); }
+  .case-card h4{ font-size:15.5px; margin:6px 0 8px; color:var(--text-on-tile); }
+  .case-card p{ font-size:13.5px; margin:0; }
+
+  .reader-topline{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+
+  .qcards-grid.embedded{ grid-template-columns:repeat(2,1fr); }
+  @media(min-width:600px){ .qcards-grid.embedded{ grid-template-columns:repeat(4,1fr); } }
 </style>
 </head>
 <body>
@@ -369,6 +440,26 @@
   <div class="footer-note mono">Votre progression est enregistrée dans ce navigateur.</div>
 </div>
 
+<!-- ============ CHAPTER READER (contenu complet) ============ -->
+<div class="screen" id="screen-reader">
+  <div class="topbar">
+    <div class="brand" onclick="goHome()">
+      <div class="brand-mark">CG</div>
+      <div class="brand-text"><b>Connaissances de Gestion</b><span id="reader-crumb-name">—</span></div>
+    </div>
+    <button class="crumb-btn" onclick="openCours()">← Retour au cours</button>
+  </div>
+  <div class="filiere-hero">
+    <div class="filiere-hero-inner">
+      <div class="eyebrow" id="reader-eyebrow">Chapitre</div>
+      <h1 id="reader-title">—</h1>
+      <p id="reader-meta">—</p>
+    </div>
+  </div>
+  <div class="reader-wrap" id="reader-body"></div>
+  <div class="footer-note mono">Vos réponses écrites dans ce chapitre s'enregistrent automatiquement dans ce navigateur.</div>
+</div>
+
 <!-- ============ DETAIL OVERLAY ============ -->
 <div class="overlay" id="overlay" onclick="if(event.target===this) closePanel()">
   <div class="panel" id="panel"></div>
@@ -439,7 +530,7 @@ const DOC_LINKS = {
     6: "https://docs.google.com/document/d/1OtiTHpPQSqpREvKQbiYwZYWGt3RkjtIJwrDbAkJZAOQ/edit"
   },
   chap: {
-    1: "https://docs.google.com/document/d/13K_gDsHoVciEXaXhByp26aJnjQVeH8BGoqe2ZkUowFg/edit",
+    1: "https://docs.google.com/document/d/16RgZtwI19-dyZXeErOED_P2rKFhDLZK6g7phTBfPivY/edit",
     2: "https://docs.google.com/document/d/1EcIOz3yQhSvGIyPK5IJ17Z4p_tKg7DvjHvRUrV3iHo0/edit",
     3: "https://docs.google.com/document/d/1NcseeCG91XQMwPaehqwnEclH1FqoQp21KbBCRlvf5KU/edit",
     4: "https://docs.google.com/document/d/1G08OYyVqRBMqJpwFFxN3nHWUaCqnPgLPpmMT9vX5Afw/edit",
@@ -454,6 +545,47 @@ const DOC_LINKS = {
     13: "https://docs.google.com/document/d/1D7TuZWRAu_gn8Ftc502Urn3Q_TlgYUg3_it1qdlI42o/edit"
   }
 };
+
+const QUALITES = [
+  "Créativité", "Prise de risque", "Rigueur", "Sens du client",
+  "Résilience", "Curiosité", "Gestion du stress", "Sens du détail",
+  "Esprit d'équipe", "Patience", "Capacité d'écoute", "Endurance physique",
+  "Sens de l'organisation", "Audace", "Honnêteté", "Humilité"
+];
+
+/* ===================== CARD ANSWERS STORAGE ===================== */
+const CARDS_KEY = 'cg2_cards_v1';
+function loadCardAnswers(filiere){
+  try{
+    const all = JSON.parse(localStorage.getItem(CARDS_KEY)) || {};
+    return all[filiere] || {};
+  }catch(e){ return {}; }
+}
+function saveCardAnswer(filiere, n, value){
+  let all = {};
+  try{ all = JSON.parse(localStorage.getItem(CARDS_KEY)) || {}; }catch(e){ all = {}; }
+  all[filiere] = all[filiere] || {};
+  all[filiere][n] = value;
+  localStorage.setItem(CARDS_KEY, JSON.stringify(all));
+}
+function escAttr(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+/* ===================== NOTES STORAGE (réponses libres) ===================== */
+const NOTES_KEY = 'cg2_notes_v1';
+function loadNote(filiere, fieldId){
+  try{
+    const all = JSON.parse(localStorage.getItem(NOTES_KEY)) || {};
+    return (all[filiere] && all[filiere][fieldId]) || '';
+  }catch(e){ return ''; }
+}
+function saveNote(filiere, fieldId, value){
+  let all = {};
+  try{ all = JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; }catch(e){ all = {}; }
+  all[filiere] = all[filiere] || {};
+  all[filiere][fieldId] = value;
+  localStorage.setItem(NOTES_KEY, JSON.stringify(all));
+}
+function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 /* ===================== STORAGE ===================== */
 const STORE_KEY = 'cg2_progress_v1';
@@ -593,7 +725,7 @@ function renderCoursParties(){
         ${part.chapitres.map(c=>{
           const done = isStamped(currentFiliere,'chap',c.c);
           return `
-          <div class="keycap chap-card" onclick="openDetail('chap',${c.c})">
+          <div class="keycap chap-card" onclick="openChapter(${c.c})">
             <div class="chap-head">
               <span class="chap-chip">CH. ${c.c}</span>
               <div class="chap-stamp-mini ${done?'done':''}"></div>
@@ -618,6 +750,188 @@ function toRoman(n){ return ['I','II','III','IV','V'][n-1] || n; }
 function quickStamp(type,n){
   toggleStamp(currentFiliere,type,n);
   if(type==='tfe'){ renderTfeRow(); updateConsignesProgress(); } else { renderCoursParties(); updateCoursProgress(); }
+  renderHome();
+}
+
+/* ===================== CHAPTER READER ===================== */
+function buildQualityCardsHtml(filiere){
+  const answers = loadCardAnswers(filiere);
+  return QUALITES.map((q, idx)=>{
+    const num = idx+1;
+    const val = escAttr(answers[num]);
+    return `
+    <div class="qcard">
+      <div class="qcard-num">${String(num).padStart(2,'0')}</div>
+      <div class="qcard-name">${q}</div>
+      <input type="text" placeholder="C'est moi / À travailler / Pas du tout moi"
+        value="${val}"
+        oninput="saveCardAnswer('${filiere}', ${num}, this.value)">
+    </div>`;
+  }).join('');
+}
+
+function noteField(filiere, fieldId, label){
+  const val = loadNote(filiere, fieldId);
+  return `
+  <div class="note-field">
+    <label>${label}</label>
+    <textarea placeholder="Votre réponse..." oninput="saveNote('${filiere}','${fieldId}',this.value)">${escHtml(val)}</textarea>
+  </div>`;
+}
+
+function openChapter(n){
+  if(n === 1){ return openChapterReader(n); }
+  return openDetail('chap', n);
+}
+
+function openChapterReader(n){
+  const f = applyFiliereTheme(currentFiliere);
+  document.getElementById('reader-crumb-name').textContent = ' · ' + f.court;
+
+  if(n === 1){
+    document.getElementById('reader-eyebrow').textContent = 'Partie I · Fondamentaux entrepreneuriaux · Chapitre 1/13';
+    document.getElementById('reader-title').textContent = "L'esprit d'entreprendre et l'autoréflexion";
+    document.getElementById('reader-meta').textContent = 'Durée estimée : 3-4 heures';
+
+    const fi = currentFiliere;
+    document.getElementById('reader-body').innerHTML = `
+
+      <div class="reader-card">
+        <span class="reader-sub">Introduction</span>
+        <p>Avant de parler de chiffre d'affaires, de statut juridique ou de plan financier, il faut répondre à une question plus simple, et pourtant plus difficile : pourquoi vous ?</p>
+        <p>Chaque année, des dizaines de commerces artisanaux ouvrent leurs portes en Belgique — et une partie d'entre eux ferment quelques années plus tard. Ce qui fait la différence n'est pas seulement une bonne recette ou un bon coup de couteau. C'est aussi la capacité de l'entrepreneur à se connaître lui-même, à savoir pourquoi il se lance, ce qui le motive vraiment, et s'il a les épaules pour tenir sur la durée.</p>
+        <p>Ce chapitre est le point de départ de votre TFE. Avant d'étudier un marché ou de construire une stratégie commerciale, vous allez d'abord vous étudier vous-même.</p>
+      </div>
+
+      <div class="reader-card">
+        <span class="reader-sub">Objectifs pédagogiques</span>
+        <ul>
+          <li>Identifier les qualités et attitudes d'un entrepreneur</li>
+          <li>Comprendre la notion d'esprit innovant et créatif</li>
+          <li>Se connaître soi-même : forces, faiblesses, motivations</li>
+          <li>Valider que le projet de TFE correspond réellement à son profil</li>
+        </ul>
+      </div>
+
+      <div class="reader-card">
+        <h2>1. Pourquoi crée-t-on une entreprise ?</h2>
+        <p>Il existe quatre grandes familles de motivations entrepreneuriales, souvent combinées :</p>
+        <ul>
+          <li><b>La passion</b> — le goût du métier, le plaisir de créer, transmettre un savoir-faire</li>
+          <li><b>L'autonomie</b> — être son propre patron, décider soi-même de son organisation</li>
+          <li><b>Le profit</b> — construire quelque chose qui rapporte, se constituer un patrimoine</li>
+          <li><b>L'impact</b> — faire vivre un quartier, transmettre une tradition, proposer une alternative</li>
+        </ul>
+        <p class="soft">Aucune de ces motivations n'est "meilleure" qu'une autre. Ce qui compte, c'est que vous sachiez identifier la vôtre — elle influencera toutes vos décisions futures.</p>
+
+        <div class="activity-box">
+          <span class="activity-tag">ACTIVITÉ</span>
+          <h3>Le mur des visages</h3>
+          <p style="margin:0;">Activité collective en classe, à partir du diaporama fourni par le professeur. Six entrepreneurs vous seront présentés un par un — devinez en groupe s'il s'agit d'une réussite sans accroc ou d'un échec suivi d'un rebond. La vérité surprend souvent : la moitié de ces parcours a commencé par une quasi-catastrophe financière.</p>
+        </div>
+      </div>
+
+      <div class="reader-card">
+        <h2>2. Les qualités et attitudes de l'entrepreneur</h2>
+        <p>Un socle de qualités revient chez la majorité des créateurs d'entreprise qui durent dans le temps :</p>
+        <ul>
+          <li><b>Créativité</b> — proposer quelque chose de différent, même dans un métier traditionnel</li>
+          <li><b>Prise de risque calculée</b> — oser, mais après avoir réfléchi</li>
+          <li><b>Résilience</b> — la capacité à encaisser un échec et à continuer</li>
+          <li><b>Sens du client</b> — observer, écouter, s'adapter à une demande réelle</li>
+          <li><b>Rigueur</b> — tenir ses engagements, ses horaires, sa comptabilité</li>
+          <li><b>Endurance</b> — un commerce artisanal demande du temps et de l'énergie</li>
+        </ul>
+        <p class="soft">Aucun entrepreneur ne possède toutes ces qualités au même niveau en démarrant. Elles se développent avec l'expérience.</p>
+
+        <div class="activity-box">
+          <span class="activity-tag">ACTIVITÉ</span>
+          <h3>Tri de cartes des qualités entrepreneuriales</h3>
+          <p>Pour chaque carte ci-dessous, écrivez votre réponse : <b>C'est moi</b>, <b>À travailler</b>, ou <b>Pas du tout moi</b>. Vos réponses s'enregistrent automatiquement — vous les retrouverez en fin d'année, juste avant votre défense orale.</p>
+          <div class="qcards-grid embedded" id="reader-qcards">${buildQualityCardsHtml(fi)}</div>
+        </div>
+
+        <div class="activity-box">
+          <span class="activity-tag">ACTIVITÉ</span>
+          <h3>Portrait chinois de l'entrepreneur</h3>
+          <p style="margin:0 0 4px;">Il n'y a pas de bonne ou de mauvaise réponse — l'objectif est de mieux vous connaître.</p>
+          ${noteField(fi, 'portrait_outil', "Si j'étais un outil de mon métier, je serais...")}
+          ${noteField(fi, 'portrait_qualite', "Si j'étais une qualité, je serais...")}
+          ${noteField(fi, 'portrait_defaut', "Si j'étais un défaut, je serais...")}
+          ${noteField(fi, 'portrait_couleur', "Si mon futur commerce était une couleur, ce serait...")}
+          ${noteField(fi, 'portrait_peur', "Ce qui me fait le plus peur dans la création d'entreprise, c'est...")}
+          ${noteField(fi, 'portrait_motivation', "Ce qui me motive le plus, c'est...")}
+        </div>
+      </div>
+
+      <div class="reader-card">
+        <h2>3. Étude de cas contrastée : deux parcours belges</h2>
+
+        <div class="case-card success">
+          <span class="case-tag">RÉUSSITE CONSTANTE</span>
+          <h4>Hendrik Dierendonck — Boucherie</h4>
+          <p>A repris en 2004 la petite boucherie familiale de son père à la côte belge. Plutôt que de continuer comme avant, il a fait un choix stratégique fort : miser sur la qualité et la maturation longue des viandes plutôt que sur le volume et les prix bas. Ce positionnement exigeant a progressivement fait de sa boucherie une référence reconnue bien au-delà de la Belgique — tout en sauvant de l'extinction une race bovine locale.</p>
+        </div>
+
+        <div class="case-card rebond">
+          <span class="case-tag">ÉCHEC PUIS REBOND</span>
+          <h4>Traiteur Grégoire — Traiteur</h4>
+          <p>Installe son activité juste avant que la pandémie ne frappe le secteur horeca de plein fouet. En 2020, l'entreprise frôle la faillite : les événements sont annulés, les commandes s'effondrent. Plutôt que d'abandonner, l'équipe tient bon, s'adapte, traverse la crise. Cinq ans plus tard, l'activité a repris son cours et s'est stabilisée.</p>
+        </div>
+
+        <div class="activity-box">
+          <span class="activity-tag">RÉFLEXION</span>
+          ${noteField(fi, 'cas_commun', "Qu'est-ce que ces deux parcours ont en commun, malgré des trajectoires très différentes ?")}
+          ${noteField(fi, 'cas_gregoire', "Qu'auriez-vous fait à la place de Traiteur Grégoire en 2020 ?")}
+          ${noteField(fi, 'cas_dierendonck', "En quoi le choix de Hendrik Dierendonck (qualité plutôt que volume) est-il aussi une forme de prise de risque ?")}
+        </div>
+      </div>
+
+      <div class="reader-card">
+        <div class="activity-box">
+          <span class="activity-tag">ACTIVITÉ</span>
+          <h3>Débat mouvant</h3>
+          <p style="margin:0;">Le professeur trace une ligne imaginaire dans la classe. À une extrémité : « Je crée une entreprise pour la liberté. » À l'autre : « Je crée une entreprise pour l'argent. » Placez-vous selon votre intuition, puis justifiez votre position à voix haute.</p>
+        </div>
+        <div class="activity-box">
+          <span class="activity-tag">OPTIONNEL</span>
+          <h3>La capsule pour soi-même</h3>
+          <p style="margin:0;">Filmez-vous 60 secondes avec votre téléphone : Pourquoi moi ? Pourquoi ce métier ? Pourquoi maintenant ? Conservez cette vidéo — vous la regarderez juste avant votre défense orale du TFE.</p>
+        </div>
+        <p class="soft" style="margin-top:16px;">→ Lien avec le TFE — Étape 1 : cette réflexion doit apparaître, même brièvement, dans votre dossier écrit (section 1.1).</p>
+      </div>
+
+      <div class="reader-card">
+        <span class="reader-sub">Conclusion — Ce qu'il faut retenir</span>
+        <ul>
+          <li>Un entrepreneur qui dure n'est pas celui qui n'échoue jamais, mais celui qui apprend de ses échecs et continue.</li>
+          <li>Il existe quatre grandes motivations entrepreneuriales : connaître la vôtre oriente toutes vos décisions futures.</li>
+          <li>Les qualités entrepreneuriales ne sont pas figées : elles se travaillent.</li>
+          <li>Votre projet de TFE doit correspondre à qui vous êtes — c'est la première étape, elle conditionne toutes les suivantes.</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  const done = isStamped(currentFiliere, 'chap', n);
+  document.getElementById('reader-body').innerHTML += `
+    <div class="reader-topline" style="margin-top:10px;">
+      <button class="panel-stamp-btn ${done?'done':''}" id="reader-stamp-btn" onclick="stampFromReader(${n})">
+        ${CHECK_SVG} <span id="reader-stamp-label">${done ? 'Tamponné — terminé' : 'Marquer ce chapitre comme terminé'}</span>
+      </button>
+    </div>
+  `;
+
+  showScreen('screen-reader');
+  window.scrollTo(0,0);
+}
+
+function stampFromReader(n){
+  toggleStamp(currentFiliere, 'chap', n);
+  const done = isStamped(currentFiliere, 'chap', n);
+  const btn = document.getElementById('reader-stamp-btn');
+  btn.classList.toggle('done', done);
+  document.getElementById('reader-stamp-label').textContent = done ? 'Tamponné — terminé' : 'Marquer ce chapitre comme terminé';
   renderHome();
 }
 
@@ -652,6 +966,8 @@ function openDetail(type, n){
     title = c.titre;
     desc = "Le document ci-dessous contient le squelette du chapitre (objectifs, contenus clés, exercices). Le professeur le complète progressivement.";
   }
+
+  document.getElementById('panel').className = 'panel';
 
   const docUrl = (DOC_LINKS[type] || {})[n];
   const docBtn = docUrl
